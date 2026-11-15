@@ -583,8 +583,9 @@
         \noindent
         The final logits are then passed through \texttt{torch.argmax} to produce the final class prediction. The logit with the highest value is selected as the predicted class. The final output is a single integer representing the predicted class for the patient.
     
-    \subsection{Model Training and Inferencing}
-    The hyperparameters described in the previous section were used to train the model. The external parameters used for training are as follows:
+    \section{Model Training and Inferencing}
+    \subsection{Model Training}
+    The hyperparameters described in the previous section were used to train the model. The external parameters used are:
 
     \begin{table}[H]
         \centering
@@ -603,6 +604,23 @@
         \label{tab:hyperparameters}
     \end{table}
 
+
+    \noindent
+    The following plots show the training and validation loop performance over the 50 epochs of training.
+    \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\columnwidth]{plots/accuracy_report.png}
+    \caption{Accuracy Report}
+    \label{fig:accuracy}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\columnwidth]{plots/loss_report.png}
+        \caption{Loss Report}
+        \label{fig:loss}
+    \end{figure}
+
     \noindent
     We used three different splits of the dataset for training, validation and testing. The training set was used to train the model, the validation set was used to pick the state of the model with the least loss and the test set was used to evaluate the performance of the model. The splits were as follows:
     \begin{table}[H]
@@ -620,12 +638,72 @@
         \label{tab:dataset_splits}
     \end{table}
 
-
-
-
-
     \noindent
-    The following plots show the training and validation loop performance over the 50 epochs of training.
+    We observe that the model nearly converges after 20 epochs and any further training does not significantly improve the performance of the model. The classification accuracy of the model improves but it eventually plateaus and starts oscillating around 0.75. The single entry with a validation loss of around 0.3 can be treated as a bad iteration due to the small size of the dataset used
+
+    \begin{table}[htbp]
+        \centering
+        \renewcommand{\arraystretch}{1.3}
+        \label{tab:classification_report}
+        \begin{tabular}{l c c c c}
+            \hline
+            \textbf{Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} & \textbf{Support} \\
+            \hline
+            Non-Demented & 0.96 & 0.75 & 0.84 & 68 \\
+            Demented     & 0.51 & 0.90 & 0.65 & 20 \\
+            \hline
+            Accuracy     &      &      & 0.78 & 88 \\
+            Macro avg    & 0.74 & 0.82 & 0.75 & 88 \\
+            Weighted avg & 0.86 & 0.78 & 0.80 & 88 \\
+            \hline
+        \end{tabular}
+        \caption{Classification report}
+    \end{table}
+
+    \subsection{Final Inferences}
+
+
+        \noindent
+        The new model reaches an accuracy of 0.78, but the test set is imbalanced (68 Non-Demented vs.\ 20 Demented), so a trivial majority-class predictor would already score 0.77. We therefore rely on class-wise and macro-averaged metrics.
+        \begin{itemize}[leftmargin=*, itemsep=0pt, topsep=2pt]
+            \item \textbf{High sensitivity:} Demented recall is 0.90, so about 18 of 20 dementia cases are detected.
+            \item \textbf{Low precision:} Demented precision is 0.51, so roughly 17 healthy subjects are flagged as Demented.
+            \item \textbf{Balanced view:} Macro recall (balanced accuracy) is 0.82, higher than the raw accuracy suggests.
+            \item \textbf{Trade-off:} The model errs on the side of caution, which suits screening, where a false alarm only triggers further tests but a missed case delays treatment.
+        \end{itemize}
+
+    \subsection{Comparison with Previous Models}
+        \noindent
+        For medical disease detection, missing a diseased patient is costlier than a false alarm, so we optimise \textbf{recall}, using precision as a usability floor. Accuracy alone is unreliable on imbalanced data.
+
+        \begin{table}[H]
+            \centering
+            \footnotesize
+            \setlength{\tabcolsep}{5pt}
+            \begin{tabular}{lccc}
+                \toprule
+                \textbf{Model} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall}\\
+                \midrule
+                Logistic Regression  & 0.686 & 0.369 & 0.453\\
+                Random Forest        & 0.729 & 0.375 & 0.481\\
+                SVC (RBF)            & 0.457 & 0.138 & 0.235\\
+                KNN                  & 0.714 & 0.000 & 0.000\\
+                Gaussian NB          & 0.714 & 0.364 & 0.235\\
+                MLP                  & 0.614 & 0.273 & 0.353\\
+                Decision Tree        & 0.600 & 0.211 & 0.235\\
+                \midrule
+                \textbf{New model}   & \textbf{0.780} & \textbf{0.740} & \textbf{0.820}\\
+                \bottomrule
+            \end{tabular}
+            \caption{Macro-averaged performance of all models.}
+            \label{tab:all_models}
+        \end{table}
+
+        \noindent
+        Table~\ref{tab:all_models} shows that the new model outperforms every earlier model on all three metrics. Its macro recall (0.82) is far above that of the best previous model, Random Forest (0.481), and its macro precision (0.74) is nearly double (0.375). Accuracy alone would be misleading: KNN scores 0.714 while detecting no positive cases. Since sensitivity is the priority in disease detection, we conclude that the new model is the better choice.
+
+
+
 
 
 

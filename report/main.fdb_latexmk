@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1794740137.4987 "/Users/alphin/Documents/Semester 5/ML_Project/report/main.tex" "main.pdf" "main" 1794740138.08587 0
-  "/Users/alphin/Documents/Semester 5/ML_Project/report/main.tex" 1794740137.33426 26137 89f124f6fb4348069b98e2156bc08d62 ""
+["pdflatex"] 1794746241.78539 "/Users/alphin/Documents/Semester 5/ML_Project/report/main.tex" "main.pdf" "main" 1794746242.75096 0
+  "/Users/alphin/Documents/Semester 5/ML_Project/report/main.tex" 1794746241.5825 30323 4fe8beb240cd672e48a34d0c138404fa ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -183,9 +183,11 @@
   "/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1793430823 5573038 b99aad5e4898a9034e953632f940512b ""
   "/usr/local/texlive/2026/texmf-var/web2c/pdftex/pdflatex.fmt" 1793430759 3636769 78de7307d78ae493c56c5c13ad2584a6 ""
   "/usr/local/texlive/2026/texmf.cnf" 1774209515 577 648cd9f92f9c0eac486f4c71c85cfbbe ""
-  "main.aux" 1794740138.03825 4062 8656c484a427045bd4344ab7501604b8 "pdflatex"
-  "main.out" 1794740138.03859 2490 7420dc4cf16800998c3738f3baff44ed "pdflatex"
-  "main.tex" 1794740137.33426 26137 89f124f6fb4348069b98e2156bc08d62 ""
+  "main.aux" 1794746242.67445 5367 f2b4a6958be1210e08671b53fd08cc07 "pdflatex"
+  "main.out" 1794746242.67515 2970 af16f4eb3f742a4221036c8d708c4cbe "pdflatex"
+  "main.tex" 1794746241.5825 30323 4fe8beb240cd672e48a34d0c138404fa ""
+  "plots/accuracy_report.png" 1794744297.8248 39835 4c9ff08c0dbb4e0d83d202d3a037e996 ""
+  "plots/loss_report.png" 1794744288.84383 25917 667e08285d5d6f0e14a2a7fbd0b3c795 ""
   (generated)
   "main.aux"
   "main.log"
