@@ -12,6 +12,8 @@
 \usepackage{enumitem}
 \usepackage{tikz}
 \usepackage{float}
+\usepackage{array}
+\usepackage{ragged2e}
 \usetikzlibrary{arrows.meta, positioning, fit, calc}
 
 \title{Automated Detection of Alzheimer's Disease from Brain MRI Scans}
@@ -434,7 +436,7 @@
 
             % Merge
             \node[box, below=1cm of mrif.south east, xshift=0.30cm] (fusion)
-                {\textbf{Feature Fusion}};
+                {\textbf{Feature Aggregation Layer}};
 
             \node[box, below=of fusion] (classifier)
                 {\textbf{Classification Layer}};
@@ -493,7 +495,7 @@
         \]
 
         \noindent
-        The resultingfeature maps are then passed through adaptive average pooling, whichreduces each feature map to a single value. Thus, the resulting representation is transformed as
+        The resulting feature maps are then passed through adaptive average pooling, which reduces each feature map to a single value. Thus, the resulting representation is transformed as
         \[
         128\times D\times H\times W
         \rightarrow
@@ -502,7 +504,7 @@
         \noindent
         This produces a fixed-length representation while substantially
         reducing the number of parameters compared with directly connecting
-        the feature maps to a fully connected layer.
+        the feature maps to a linear layer.
 
         \vspace{3pt}
         \noindent
@@ -557,5 +559,74 @@
    
     
     \subsection{Metadata Feature Extraction}
+        The metadata features are first passed through the preprocessing pipeline described in Section~\ref{fig:metadata_preprocessing}. The resulting numerical features are then passed through a linear layer to project the features to a 32-dimensional representation. ReLU activation is subsequently applied, followed by 25\% dropout. The resulting 32-dimensional vector represents the learned metadata features and is used as the input to the subsequent classification framework.
+    
+    \subsection{Feature Aggregation Layer}
+        After running both branches of the classifier we have the following feature tensors:
+        \begin{itemize}[noitemsep]
+            \item MRI feature tensor: $64$-dimensional
+            \item Metadata feature tensor: $32$-dimensional
+        \end{itemize}
+
+        \noindent
+        We will use a simple concatenation of the two feature tensors using the \texttt{torch.cat} function to produce a single $96$-dimensional feature tensor. 
+
+        \noindent
+        We will then pass this feature tensor through the following:
+        \begin{itemize}[noitemsep]
+            \item Linear layer: $96 \rightarrow 32$ dimensions
+            \item ReLU activation to introduce non-linearity
+            \item Dropout: $25\%$
+            \item Linear layer: $32 \rightarrow 2$ dimensions
+        \end{itemize}
+
+        \noindent
+        The final logits are then passed through \texttt{torch.argmax} to produce the final class prediction. The logit with the highest value is selected as the predicted class. The final output is a single integer representing the predicted class for the patient.
+    
+    \subsection{Model Training and Inferencing}
+    The hyperparameters described in the previous section were used to train the model. The external parameters used for training are as follows:
+
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{l c}
+            \hline
+            \textbf{Parameter} & \textbf{Value} \\
+            \hline
+            Learning Rate & 0.001 \\
+            Number of Epochs & 50 \\
+            Batch Size & 4 \\
+            Optimizer & AdamW \\
+            Loss Function & BCE with weighted classes \\
+            \hline
+        \end{tabular}
+        \caption{External hyperparameters}
+        \label{tab:hyperparameters}
+    \end{table}
+
+    \noindent
+    We used three different splits of the dataset for training, validation and testing. The training set was used to train the model, the validation set was used to pick the state of the model with the least loss and the test set was used to evaluate the performance of the model. The splits were as follows:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{l c c c}
+            \hline
+            \textbf{Split} & \textbf{Samples} & \textbf{Non-Demented} & \textbf{Demented} \\
+            \hline
+            Training Set & 278 & 214 & 64 \\
+            Validation Set & 70 & 54 & 16 \\
+            Test Set & 88 & 68 & 20\\
+            \hline
+        \end{tabular}
+        \caption{Dataset splits}
+        \label{tab:dataset_splits}
+    \end{table}
+
+
+
+
+
+    \noindent
+    The following plots show the training and validation loop performance over the 50 epochs of training.
+
+
 
 \end{document}
