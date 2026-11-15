@@ -12,7 +12,7 @@
 \usepackage{enumitem}
 \usepackage{tikz}
 \usepackage{float}
-\usetikzlibrary{arrows.meta, positioning}
+\usetikzlibrary{arrows.meta, positioning, fit, calc}
 
 \title{Automated Detection of Alzheimer's Disease from Brain MRI Scans}
 \author{Alphin Issac Varghese (142401007) \and Aaron C Abraham (142401004)}
@@ -401,14 +401,161 @@
 
 
 \section{Final Classification Framework}
+    The final classification framework is a multimodal approach which uses both the 3D MRI data as well as the paitent level metadata information to classify the patients into their respective classes.
+    
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[
+            node distance=0.45cm,
+            box/.style={
+                rectangle,
+                draw,
+                rounded corners,
+                minimum width=3.5cm,
+                minimum height=0.6cm,
+                align=center,
+                font=\small
+            },
+            arrow/.style={
+                -{Stealth},
+                thick
+            }
+        ]
+
+            % Left: MRI branch
+            \node[box] (mri) {\textbf{3D MRI Volume}};
+            \node[box, below=of mri] (cnn) {\textbf{3D CNN Feature Extraction}};
+            \node[box, below=of cnn] (mrif) {\textbf{MRI Feature Representation}};
+
+            % Right: Metadata branch
+            \node[box, right=1.2cm of mri] (meta) {\textbf{Clinical Metadata}};
+            \node[box, below=of meta] (metaf) {\textbf{Metadata Feature Extraction}};
+            \node[box, below=of metaf] (metar) {\textbf{Metadata Representation}};
+
+            % Merge
+            \node[box, below=1cm of mrif.south east, xshift=0.30cm] (fusion)
+                {\textbf{Feature Fusion}};
+
+            \node[box, below=of fusion] (classifier)
+                {\textbf{Classification Layer}};
+
+            \node[box, below=of classifier] (output)
+                {\textbf{CDR Prediction}};
+
+            % Left branch arrows
+            \draw[arrow] (mri) -- (cnn);
+            \draw[arrow] (cnn) -- (mrif);
+
+            % Right branch arrows
+            \draw[arrow] (meta) -- (metaf);
+            \draw[arrow] (metaf) -- (metar);
+
+            % Merge arrows
+            \draw[arrow] (mrif.south) -- ++(0,-0.45) -| (fusion.north);
+            \draw[arrow] (metar.south) -- ++(0,-0.45) -| (fusion.north);
+
+            % Final arrows
+            \draw[arrow] (fusion) -- (classifier);
+            \draw[arrow] (classifier) -- (output);
+
+    \end{tikzpicture}
+    \caption{Overview of the final multimodal framework.}
+    \end{figure}
+    
+
+
     \subsection{3D CNN Architecture}
-        
+       The proposed framework employs a hierarchical 3D convolutional
+        architecture to extract spatial features directly from MRI volumes.
+        The input is represented as a single-channel 3D tensor and processed
+        through four convolutional blocks, with the number of feature channels
+        progressively increased from 1 to 128. Each block uses
+        $3\times3\times3$ convolutions, followed by batch
+        normalisation and ReLU activation. The first three blocks additionally
+        apply max pooling to progressively reduce the spatial resolution while
+        increasing the abstraction of the learned features.
 
+        \noindent
+        The convolutional blocks follow the structure
+        \[
+        \mathrm{Conv3D}
+        \rightarrow
+        \mathrm{BatchNorm}
+        \rightarrow
+        \mathrm{ReLU}
+        \rightarrow
+        \mathrm{MaxPool},
+        \]
+        for the first three blocks. The number of channels is as follows:
 
+        \[
+        1 \rightarrow 16 \rightarrow 32 \rightarrow 64 \rightarrow 128.
+        \]
 
+        \noindent
+        The resultingfeature maps are then passed through adaptive average pooling, whichreduces each feature map to a single value. Thus, the resulting representation is transformed as
+        \[
+        128\times D\times H\times W
+        \rightarrow
+        128\times1\times1\times1.
+        \]
+        \noindent
+        This produces a fixed-length representation while substantially
+        reducing the number of parameters compared with directly connecting
+        the feature maps to a fully connected layer.
 
+        \vspace{3pt}
+        \noindent
+        The pooled representation is flattened and passed through a linear
+        layer that projects the 128-dimensional representation to 64
+        dimensions. ReLU activation is subsequently applied, followed by
+        25\% dropout. The resulting 64-dimensional vector represents the
+        learned MRI features and is used as the input to the subsequent
+        classification framework.
 
+        \begin{table}[H]
+            \centering
+            \renewcommand{\arraystretch}{1.15}
+            \setlength{\tabcolsep}{4pt}
+            \small
 
+            \begin{tabular}{p{1.8cm} p{4.5cm} p{1.55cm}}
+                \hline
+                \textbf{Stage} & \textbf{Operation} & \textbf{Output} \\
+                \hline
+                Input
+                & 4D MRI volume
+                & $1\times128^3$ \\
 
+                Block 1
+                & Conv3D + BN + ReLU + MaxPool
+                & $16\times64^3$ \\
+
+                Block 2
+                & Conv3D + BN + ReLU + MaxPool
+                & $32\times32^3$ \\
+
+                Block 3
+                & Conv3D + BN + ReLU + MaxPool
+                & $64\times16^3$ \\
+
+                Block 4
+                & Conv3D + BN + ReLU
+                & $128\times16^3$ \\
+
+                Pooling
+                & Adaptive Average Pooling
+                & $128\times1^3$ \\
+
+                Activation
+                & Linear + ReLU + 25\% Dropout
+                & $64$ \\
+
+                \hline
+            \end{tabular}
+        \end{table}
+   
+    
+    \subsection{Metadata Feature Extraction}
 
 \end{document}
