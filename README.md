@@ -43,10 +43,10 @@ raw/
 
 ## Setup
 
-Use Python with the project dependencies installed:
+Use Python with the project dependencies installed from the root-level requirements file:
 
 ```bash
-pip install torch nibabel pandas numpy scikit-learn matplotlib
+pip install -r requirements.txt
 ```
 
 Run commands from the repository root so the relative dataset and checkpoint paths resolve correctly.

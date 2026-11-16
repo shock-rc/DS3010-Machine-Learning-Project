@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.10.31)  15 NOV 2026 18:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.10.31)  16 NOV 2026 20:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -626,12 +626,12 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 56
 (/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [3]
-<plots/accuracy_report.png, id=120, 409.7709pt x 328.8285pt>
+<plots/accuracy_report.png, id=124, 409.7709pt x 328.8285pt>
 File: plots/accuracy_report.png Graphic file (type png)
 <use plots/accuracy_report.png>
 Package pdftex.def Info: plots/accuracy_report.png  used on input line 612.
 (pdftex.def)             Requested size: 247.52498pt x 198.62827pt.
-<plots/loss_report.png, id=122, 400.3758pt x 328.8285pt>
+<plots/loss_report.png, id=126, 400.3758pt x 328.8285pt>
 File: plots/loss_report.png Graphic file (type png)
 <use plots/loss_report.png>
 Package pdftex.def Info: plots/loss_report.png  used on input line 619.
@@ -641,7 +641,17 @@ Overfull \hbox (11.5231pt too wide) in paragraph at lines 648--660
  [][] 
  []
 
-[4 <./plots/accuracy_report.png> <./plots/loss_report.png>] [5
+[4 <./plots/accuracy_report.png> <./plots/loss_report.png>]
+Underfull \hbox (badness 1924) in paragraph at lines 706--707
+\OT1/ptm/m/n/10 This project ex-plored the use of ma-chine learn-ing and
+ []
+
+
+Underfull \hbox (badness 1360) in paragraph at lines 706--707
+\OT1/ptm/m/n/10 deep learn-ing tech-niques for the au-to-mated de-tec-tion of
+ []
+
+[5
 
 ] (./main.aux)
  ***********
@@ -649,21 +659,21 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: AF16F4EB3F742A4221036C8D708C4CBE;2970.
+(rerunfilecheck)             Checksum: 919773B2EAB4C62DAF5AB7DF8FF8EE49;3064.
  ) 
 Here is how much of TeX's memory you used:
- 23402 strings out of 467525
- 435123 string characters out of 5418981
- 843617 words of memory out of 5000000
- 51888 multiletter control sequences out of 15000+600000
+ 23409 strings out of 467525
+ 435269 string characters out of 5418981
+ 843651 words of memory out of 5000000
+ 51892 multiletter control sequences out of 15000+600000
  654530 words of font info for 100 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,11n,104p,622b,855s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
-Output written on main.pdf (5 pages, 241889 bytes).
+Output written on main.pdf (5 pages, 243668 bytes).
 PDF statistics:
- 220 PDF objects out of 1000 (max. 8388607)
- 175 compressed objects within 2 object streams
- 38 named destinations out of 1000 (max. 500000)
- 159 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 227 PDF objects out of 1000 (max. 8388607)
+ 182 compressed objects within 2 object streams
+ 41 named destinations out of 1000 (max. 500000)
+ 167 words of extra memory for PDF output out of 10000 (max. 10000000)
 

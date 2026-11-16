@@ -702,9 +702,14 @@
         \noindent
         Table~\ref{tab:all_models} shows that the new model outperforms every earlier model on all three metrics. Its macro recall (0.82) is far above that of the best previous model, Random Forest (0.481), and its macro precision (0.74) is nearly double (0.375). Accuracy alone would be misleading: KNN scores 0.714 while detecting no positive cases. Since sensitivity is the priority in disease detection, we conclude that the new model is the better choice.
 
+\section{Conclusion}
+    This project explored the use of machine learning and deep learning techniques for the automated detection of Alzheimer's disease from brain MRI scans. The initial experiments with 2D MRI slices and conventional machine learning models provided a baseline for comparison, while the final multimodal framework combined 3D MRI information with patient metadata to improve classification performance.
+    
+    The final model achieved an accuracy of 0.78, with a macro precision of 0.74 and a macro recall of 0.82. Its high recall for the Demented class indicates that the model can identify most patients requiring further examination, which is an important property for a screening system. However, the relatively low precision for this class also produces false positives, and the imbalanced dataset limits the conclusions that can be drawn from accuracy alone.
 
-
-
-
+    \begin{thebibliography}{1}
+        \bibitem{github-repository}
+        Project GitHub repository: \href{https://github.com/shock-rc/DS3010-Machine-Learning-Project}{\texttt{Click Here}}
+    \end{thebibliography}
 
 \end{document}
